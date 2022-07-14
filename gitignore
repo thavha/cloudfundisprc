@@ -1,4 +1,5 @@
 *
+*.db
 !challange.py
 !README.md
 !requirements.txt
