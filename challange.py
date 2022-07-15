@@ -137,7 +137,7 @@ if __name__ == "__main__":
     movies_instance = TopMoviesAanalysis(
         args.database, args.table, args.seed, args.query, args.year, args.movie
     )
-    
+
     movies_instance.setting_database()
     movies_instance.loading_data()
     if args.query == "top_10_movies":
