@@ -44,7 +44,7 @@ class TopMoviesAanalysis:
             c = db.cursor()
 
             results = c.execute(
-                f"SELECT Series_Title AS Movie_title, IMDB_Rating AS IMDB_rating FROM {self.table} ORDER BY 2 DESC LIMIT 10"
+                f'SELECT ROW_NUMBER() OVER ()||": "||"Series_Title"||" ("|| "IMDB_Rating" ||")" AS Top_10_movies FROM {self.table} ORDER BY IMDB_Rating DESC LIMIT 10'
             )
             return results.fetchall()
 
@@ -52,7 +52,7 @@ class TopMoviesAanalysis:
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
             results = c.execute(
-                f"SELECT Star1 AS Lead_actor, IMDB_Rating AS IMDB_rating FROM {self.table} ORDER BY 2 DESC LIMIT 10"
+                f'SELECT ROW_NUMBER() OVER ()||": "||"Star1"||" ("|| "IMDB_Rating"||")" AS Top_10_actors FROM {self.table} ORDER BY IMDB_Rating DESC LIMIT 10'
             )
             return results.fetchall()
 
@@ -133,9 +133,11 @@ if __name__ == "__main__":
         help="search for movies that contains the phrase",
     )
     args = parser.parse_args()
+
     movies_instance = TopMoviesAanalysis(
         args.database, args.table, args.seed, args.query, args.year, args.movie
     )
+    
     movies_instance.setting_database()
     movies_instance.loading_data()
     if args.query == "top_10_movies":
