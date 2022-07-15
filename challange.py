@@ -60,7 +60,7 @@ class TopMoviesAanalysis:
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
             results = c.execute(
-                f"SELECT Series_Title AS Movie_title, IMDB_Rating AS IMDB_rating FROM {self.table} WHERE Released_Year = {self.year} ORDER BY 2 DESC"
+                f'SELECT ROW_NUMBER() OVER ()||": "||"Series_Title"||" ("||"IMDB_Rating"||")" AS Movies_of_the_year FROM {self.table} WHERE Released_Year = {self.year} ORDER BY IMDB_Rating DESC'
             )
             return results.fetchall()
 
@@ -68,7 +68,7 @@ class TopMoviesAanalysis:
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
             results = c.execute(
-                f"SELECT Series_Title AS Movie_title, Round(Max(Runtime)/60.00, 2) AS Runtime_hours FROM {self.table} WHERE Released_Year = {self.year}"
+                f'SELECT "Series_Title"||" ("||Round(Max(Runtime)/60.00, 2)||" hrs)" AS Longest_movie FROM {self.table} WHERE Released_Year = {self.year}'
             )
             return results.fetchall()
 
@@ -76,7 +76,7 @@ class TopMoviesAanalysis:
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
             results = c.execute(
-                f"SELECT Released_Year AS year, AVG(Gross) AS Avarage_gross_in_dollars FROM {self.table} GROUP BY Released_Year ORDER BY Avarage_gross_in_dollars DESC LIMIT 1"
+                f'SELECT "Released_Year"||" ($"||printf("%,d", CAST(AVG(Gross) AS INTEGER)) AS Avarage_gross_in_dollars FROM {self.table} GROUP BY Released_Year ORDER BY AVG(Gross)  DESC LIMIT 1'
             )
             return results.fetchall()
 
@@ -85,7 +85,7 @@ class TopMoviesAanalysis:
             c = db.cursor()
             print(self.movie)
             results = c.execute(
-                f"SELECT Series_Title AS Movie_title, IMDB_Rating AS IMDB_rating FROM {self.table} WHERE Movie_title LIKE '%{self.movie}%'"
+                f'SELECT ROW_NUMBER() OVER ()||": "||"Series_Title"||" ("||"IMDB_Rating "||")" AS Movies_like_{self.query} FROM {self.table} WHERE Series_Title LIKE "%{self.movie}%"'
             )
             return results.fetchall()
 
