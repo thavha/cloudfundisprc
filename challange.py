@@ -20,7 +20,7 @@ class TopMoviesAanalysis:
             db.commit()
 
     def loading_data(self):
-        """This method will make the connection to the database and load the data into a pandas dataframe if the data is not yet loaded.
+        """This method will make the connection to the database and load the data into a pandas dataframe then insert the data into the databse if the data is not yet loaded.
         some cleaning to the data which is loaded is done here."""
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         type=bool,
         metavar="",
         required=True,
-        help="set to True to load the data only obce",
+        help="set to True to load the data only once",
     )
     parser.add_argument(
         "--query",
