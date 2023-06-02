@@ -44,7 +44,7 @@ class TopMoviesAanalysis:
             c = db.cursor()
 
             results = c.execute(
-                f'SELECT ROW_NUMBER() OVER ()||": "||"Series_Title"||" ("|| "IMDB_Rating" ||")" AS Top_10_movies FROM {self.table} ORDER BY IMDB_Rating DESC LIMIT 10'
+                f'SELECT Series_Title , IMDB_Rating FROM {self.table} ORDER BY IMDB_Rating DESC LIMIT 10'
             )
             return results.fetchall()
 
@@ -52,7 +52,7 @@ class TopMoviesAanalysis:
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
             results = c.execute(
-                f'SELECT ROW_NUMBER() OVER ()||": "||"Star1"||" ("|| "IMDB_Rating"||")" AS Top_10_actors FROM {self.table} ORDER BY IMDB_Rating DESC LIMIT 10'
+                f'SELECT Star1, IMDB_Rating FROM {self.table} ORDER BY IMDB_Rating DESC LIMIT 10'
             )
             return results.fetchall()
 
@@ -60,7 +60,7 @@ class TopMoviesAanalysis:
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
             results = c.execute(
-                f'SELECT ROW_NUMBER() OVER ()||": "||"Series_Title"||" ("||"IMDB_Rating"||")" AS Movies_of_the_year FROM {self.table} WHERE Released_Year = {self.year} ORDER BY IMDB_Rating DESC'
+                f'SELECT Series_Title IMDB_Rating FROM {self.table} WHERE Released_Year = {self.year} ORDER BY IMDB_Rating DESC'
             )
             return results.fetchall()
 
