@@ -1,6 +1,11 @@
 # To run the program :
 
 ## It is best to run the programm in newly created virtual environment
+### Anaconda python : conda create --name myenv
+###                 : source activate myenv
+
+### Python run : python3 -m venv myenv
+###            : source myenv/bin/activate 
 
 * run the command `pip install -r requirements.txt` to install the required depandencies
 * this programm assumes that the file imdb_top_1000.csv is in the working directory

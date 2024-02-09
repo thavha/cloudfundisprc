@@ -83,11 +83,13 @@ class TopMoviesAanalysis:
     def movies_like(self):
         with sqlite3.connect(f"{self.database}.db") as db:
             c = db.cursor()
-            print(self.movie)
             results = c.execute(
-                f'SELECT ROW_NUMBER() OVER ()||": "||"Series_Title"||" ("||"IMDB_Rating "||")" AS Movies_like_{self.query} FROM {self.table} WHERE Series_Title LIKE "%{self.movie}%"'
+                f'SELECT "Series_Title"  FROM {self.table} WHERE Series_Title LIKE "%{self.movie}%"'
             )
-            return results.fetchall()
+            movoie = results.fetchall()
+            if movoie:
+                return movoie
+            return f'No movie found with the name containing the phrase/word :"{self.movie}"'
 
 
 if __name__ == "__main__":
